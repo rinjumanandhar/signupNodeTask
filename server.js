@@ -2,8 +2,8 @@ var express = require("express"),
     app = express(),
     parser= require("body-parser"),
     config = require("./lib/modules/config/config"),
-    routerHelper = require("./lib/routes/index"),
-    errorlog = require("./lib/modules/errorlog/errorlog_route");
+    routerHelper = require("./lib/routes/index");
+    errorHandler = require("./lib/modules/errorlog/errorlog_controller");
  
 const mongoose = require('mongoose');
 
@@ -19,9 +19,13 @@ mongoose.connection.once('open',function(){
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
 
-//app.use('/api/', route);
+//handeling route
 routerHelper.init(app);
 
+//handling error
+app.use(function(err, req, res, next) {
+    errorHandler.posting(err, req, res, next);
+})
 
 app.listen(8000, () => {
     console.log('Server is up and running');
