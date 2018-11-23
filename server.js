@@ -19,7 +19,7 @@ mongoose.connection.once('open',function(){
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));
 
-//handeling route
+//handling route
 routerHelper.init(app);
 
 //handling error
